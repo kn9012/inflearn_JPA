@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/jpashop.iml" filepath="$PROJECT_DIR$/.idea/jpashop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jpashop.jpashop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/jpashop.jpashop.test.iml" />
     </modules>
   </component>
 </project>
