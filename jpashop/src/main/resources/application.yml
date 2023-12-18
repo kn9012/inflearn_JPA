@@ -8,7 +8,7 @@ spring:
     database: h2   # 추가 해준 부분
     database-platform: org.hibernate.dialect.H2Dialect # 추가 해준 부분
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
