@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -27,6 +28,8 @@ public class Member {
     mappedBy의 뜻은 Order에 있는 "member" 필드에 의해서 매핑 됐음을 표시
     Order 테이블이 주인이라면 주인이 아닌 테이블의 필드에 표시해준다.
     */
+
+    @JsonIgnore // 양방향 관계일 경우 무한루프가 돌게 되어 한쪽에 @JsonIgnore를 설정해주어야 함
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 }
