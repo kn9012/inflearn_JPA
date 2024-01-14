@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -93,11 +94,24 @@ public class OrderRepository {
         return query.getResultList();
     }
 
+
+    // V3는 기존의 Dto에서 원하는 값만 가져오도록 fetch join을 함
     public List<Order> findAllWithMemberDelivery() {
         return em.createQuery(
                 "select o from Order o" +
                         " join fetch o.member m" +
                         " join fetch o.delivery d", Order.class
         ).getResultList();
+    }
+
+    // V4에서 실제 sql 짜듯이 쿼리를 짜서 로직의 재사용성이 낮으며 V3보다는 조금 더 성능 최적화가 됨
+    // 코드 상 조금 더 지저분함
+    public List<OrderSimpleQueryDto> findOrderDto() {
+        return em.createQuery("select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address) " +
+                        "from Order o" +
+                " join o.member m" +
+                " join o.delivery d", OrderSimpleQueryDto.class)
+                .getResultList();
+
     }
 }
