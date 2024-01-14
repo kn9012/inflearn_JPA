@@ -106,12 +106,23 @@ public class OrderRepository {
 
     // V4에서 실제 sql 짜듯이 쿼리를 짜서 로직의 재사용성이 낮으며 V3보다는 조금 더 성능 최적화가 됨
     // 코드 상 조금 더 지저분함
-    public List<OrderSimpleQueryDto> findOrderDto() {
-        return em.createQuery("select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address) " +
-                        "from Order o" +
-                " join o.member m" +
-                " join o.delivery d", OrderSimpleQueryDto.class)
-                .getResultList();
+//    public List<OrderSimpleQueryDto> findOrderDto() {
+//        return em.createQuery("select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address) " +
+//                        "from Order o" +
+//                " join o.member m" +
+//                " join o.delivery d", OrderSimpleQueryDto.class)
+//                .getResultList();
+//
+//    }
 
+    // 1:N 패치 조인에서는 페이징을 할 수 없다.
+    public List<Order> findAllWithItem() {
+        return em.createQuery("" +
+                "select distinct o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d" +
+                " join fetch o.orderItems oi" +
+                " join fetch oi.item i", Order.class)
+                .getResultList();
     }
 }
